@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% block 'main' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head> 
+<body>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-3 mt-4 bg-light text-dark">
+            <h5> Filter by Category </h5>
+            <hr>
+            <p><a href="/home" class="anchor"> All</a></p>
+            <p><a href="/catfilter/1" class="anchor"> By Mobile </a></p>
+            <p><a href="/catfilter/2" class="anchor"> By Shoes</a></p>
+            <p><a href="/catfilter/3" class="anchor"> By Cloths</a></p>
+            <p><a href="/catfilter/4" class="anchor"> By Perfume</a></p>
+            <h5> Filter by Price </h5>
+            <hr>
+            <form method="GET" action="/range">
+                <div>
+                    <label for="Input1" class="form-label"><strong>Min</strong></label>
+                    <input type="number" class="form-control" name="min" id="Input" placeholder="Enter minimum value">
+                </div>
+                <div>
+                    <label for="Input2" class="form-label"><strong>Max</strong></label>
+                    <input type="number" class="form-control" name="max" id="Input2" placeholder="Enter maximum value">
+                </div>
+                <div class="mb-3">
+                    <input type="Submit" class="btn btn-dark" value="Search">
+                    
+                </div>
+            </form>
+            <h5> Sort by Price </h5>
+            <hr>
+            <p><a href="/sort/0" class="anchor"> Low to High</a> </p>
+            <p><a href="/sort/1" class="anchor"> High to Low</a> </p>
+
+        </div> <!--end of side bar-->
+
+        <div class="col-md-9 mt-4 bg-light text-dark">
+            <div class="row">
+                {% for x in products %} <!--products is class of module & this is key-->
+                <div class="col-3">
+                    <div class="card" style="width:100%; ">
+                        <img src="{{x.pimage.url}}"   width="100%"  height="300px" class="card-img-top " alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">{{x.name}}</h5>
+                          <p class="card-text">{{x.price}}</p>
+                          {% if x.cat == 1 %}
+                          <p class="card-text">Mobile</p>
+                          {% elif x.cat == 2 %}
+                          <p class="card-text">Shoes</p>
+                          {% elif x.cat == 3 %}
+                          <p class="card-text">Cloths</p>
+                          {% else %}
+                          <p class="card-text">Perfume</p>
+                          {% endif %}
+                          <a href="/pdetails/{{x.id}}" class="btn btn-dark"> See Details</a>
+                        </div>
+                    </div>
+                </div> <!--End product 1-->
+                {% endfor %}
+
+                <!--
+                <div class="col-3">
+                    <div class="card" style="width:100%; ">
+                        <img src="../static/static/image/samsung-605439_640.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Product2</h5>
+                            <p class="card-text">Rs.900</p>
+                            <a href="#" class="btn btn-dark">See Details</a>
+                        </div>
+                    </div>
+                </div>
+                    
+                <div class="col-3">
+                    <div class="card" style="width:100%;  ">
+                        <img src="../static/static/image/samsung-605439_640.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Product3</h5>
+                            <p class="card-text">Rs.800</p>
+                            <a href="#" class="btn btn-dark">See Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="card" style="width:100%; ">
+                        <img src="../static/static/image/samsung-605439_640.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Product4</h5>
+                            <p class="card-text">Rs.700</p>
+                            <a href="#" class="btn btn-dark">See Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="card" style="width:100%;">
+                        <img src="../static/static/image/samsung-605439_640.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Product5</h5>
+                            <p class="card-text">Rs.750</p>
+                            <a href="#" class="btn btn-dark">See Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="card" style="width:100%; ">
+                        <img src="../static/static/image/samsung-605439_640.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Product6</h5>
+                            <p class="card-text">Rs.600</p>
+                            <a href="#" class="btn btn-dark">See Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-3">
+                  <div class="card" style="width:100%;  ">
+                      <img src="../static/static/image/samsung-605439_640.jpg" class="card-img-top" alt="...">
+                      <div class="card-body">
+                          <h5 class="card-title">Product7</h5>
+                          <p class="card-text">Rs.500</p>
+                          <a href="#" class="btn btn-dark">See Details</a>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-3">
+                <div class="card" style="width:100%; ">
+                    <img src="static/static/image/samsung-605439_640.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Product8</h5>
+                        <p class="card-text">Rs.200</p>
+                        <a href="#" class="btn btn-dark">See Details</a>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+
+            </div>
+        </div><!--End of product list-->
+    </div>
+    
+</body>
+</html>
+{% endblock 'main' %}

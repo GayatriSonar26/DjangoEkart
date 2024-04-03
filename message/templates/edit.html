@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create message</title>
+</head>
+<body>
+        {% for x in data %}
+        <form method="post" action="">
+        {% csrf_token %}
+        <h1> Create message </h1>
+        <label> Enter Name :</label>
+        <input type="text" name="uname" placeholder="Sender name" value="{{x.name}}" ><br><br>
+        <label> Email id :</label>
+        <input type="email" name="umail" placeholder="Sender email" value="{{x.email}}" ><br><br>
+        <label> Mobile No : </label>
+        <input type="numner" name="unum" placeholder="Enter Mobile" value="{{x.mobile}}" ><br><br>
+        <label> Message : </label>
+        <textarea  name="msg" cols="30" rows="10"> {{x.msg}} </textarea> <br><br>
+        <button type="submit" value="update"> Send </button>
+        </form>
+        {% endfor %}
+</body>
+</html>

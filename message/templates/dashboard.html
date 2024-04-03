@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1 align="center"> Dashboard </h1>
+    <p><a href="/create"> Send Message </a> </p>
+    {% for x in data %}
+        {{x}}
+    {% endfor %}
+
+    <br><br><br>
+    <hr>
+    <br><br>
+    <table align="center" border="1">
+        <tr>
+            <th> Sr.No </th>
+            <th> Name </th>
+            <th> Email </th>
+            <th> Mobile </th>
+            <th> Message </th>
+            <th> Edit </th>
+            <th> Delete </th>
+        </tr>
+
+            {% for x in data %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{x.name}}</td>
+                <td>{{x.email}}</td>
+                <td>{{x.mobile}}</td>
+                <td>{{x.msg}}</td>
+                <td><a href="/edit/{{x.id}}"> Edit </a> </td>
+                <td><a href="/delete/{{x.id}}">Delete</a> </td>
+            </tr>
+            {% endfor %}
+
+    </table>
+
+    <br><br>
+    <hr>
+
+</body>
+</html>

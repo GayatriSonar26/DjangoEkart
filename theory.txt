@@ -1,0 +1,744 @@
+Django:
+Python Framework:
+- is generic structure, code maintainability is easy.
+- used to built web applications.
+- it allows us to focus on application logic
+  rather than investing time to create the things
+  from scratch.
+
+=============================================================================================================================================
+
+Features of Django Framework:
+1. Battery included approach:
+    most of functionality required by developer are already availabel.
+2. Rapid development:
+    develop web application faster. (MVT)
+3. Security:
+4.Scalable:
+    ability of application to work smoothly
+    when number of users increases.
+5.Admin Interface
+6. REST Framework for API:
+
+==============================================================================================================================================================
+
+Steps to create Django project & application:
+
+Step1: Install virtualenv module to create virtual environment
+       - pip install virtualenv (install one time) - run this on cmd
+
+step2: create virtual environment
+       - virtualenv environmentname
+       eg. virtualenv env
+       if error:python -m virtualenv env
+
+step3: Install Django:
+       1. activate virtual environment
+        - env\Scripts\activate
+        - source env/bin/activate (linux)
+
+       2. Install Django
+        - pip install django
+
+step4: Create project in Django 
+       - django-admin startproject projectname
+       - django-admin startproject ecom
+
+
+step5: Create application
+       - go to directory where manage.py is store (then fire cmd) cd c:\Django\ecomm
+       - python manage.py startapp applicationname
+       - python manage.py startapp ecomapp
+
+==========================================================================================================================================================
+
+Webapplication require:
+1. Browser
+2. Server
+
+Django Framework provides local server or development server
+
+command to start server:
+    - python manage.py runserver (to run our server we have to move that server)
+
+
+===================================================================================================================================================
+
+setting.python
+- Include your application name is INSTALLED_APPS section followed with comma.
+
+===============================================================================================================================================
+
+Django architecture : 
+
+MVT - Model View Templates
+
+Model:- Representaion of tables in db.
+        Model in django in database
+
+Views:- 
+       - Resposible to give response to client.
+       - Is views.py files in django application.
+       - Are logic (python code) for application.
+       - Their are two type of Views :
+                                       1. Function based views
+                                       2. Class based View
+
+Templates:- 
+             - Frontend
+             - Is Representative layer of your application 
+             - They are 'HTML files'.
+             - eg: from
+
+=================================================================================================================================================
+
+Templates                                   views.py                                Model
+form
+Name:__
+Rollno:__     =====================> data is extracted here ================> data inserted into   
+Save                                         from form.                           into db tables 
+                                                                                        |
+                                                                                        |
+                                                                                        |
+                                                                                        |
+data displayed
+into form  <======================== data from DB tables <========================= select query
+
+===============================================================================================================================================
+
+Request Response Cycle :
+
+Step1:
+       client =================================================> Django server
+                                   Request
+                          http://127.0.0.8000/about
+                          http://127.0.0.8000/contact
+                          http://127.0.0.8000/login
+
+
+Step2: When client sends request, server map requested url with 
+       url patterns list of url.py file.
+       Server will map only last part i.e. about,contact,login
+
+client=======================================> server
+if received url = urlpattern in url.py file in project folder 
+                |
+                |  True
+                |
+       moves to views.py file of application folder
+                |
+                |
+                |
+       call a function linked with url
+       and return response to client
+
+
+views.py provides response with the help of function  
+syntax:
+       def functionname(request):
+              body of function
+              return response
+
+===============================================================================================================================================
+
+To return response there are 2 inbuilt functions:
+
+1. HttpResponse()
+2. render()
+
+1. HttpResponse():
+              - Used to create response object & that object is returned to client.
+              - Cannot send html file to browser 
+
+2. render():
+              - Used to return html file as a response to client
+
+       syntax :
+              render(request,'filename.html',data)
+
+
+Step 1:
+       Html file are store in Templates so create Templates folder under project.
+
+Step 2:
+       Include Templates folder create one  html file
+       e.g : index.html 
+
+settings.py
+
+import os
+
+under templates section modify as follows:
+
+'DIRS':[os.path.join(BASE_DIR,'templates')],
+
+BASE_DIR ========> show relative path
+
+
+
+
+============================================================================================================================================
+
+Passing parameter or value through urls
+
+127.0.0.1:8000/edit/3   ----->(3 is record no.....record delete or update)
+
+==============================================================================================================================================
+
+Programming concepts:
+
+Procedural programming system                                         Object Oriented programming system
+
+-Everything is in form of function                                      -Is in form of class  
+  eg: Function based views                                                 eg: Class based views 
+
+==========================================================================================================================================
+
+Class based views:
+
+In this view a class is defined which is inherited from inbuilt django class View(V is capital)
+
+views.py
+Step 1 :
+       import view class from django.views 
+step 2:
+       define view class as follows:
+       class ViewClassName(view):
+              def get(self,request):
+                     body of method
+                     return response
+
+              def post(self,request):
+                     body of method 
+                     return response
+
+       
+       from django.views import View
+       class SimpleView(view):
+              def get (self,request):
+                     return HTTPResponse("welcome to ITved")
+
+
+Step 3:
+       write url for class based views:
+              path('myView',SimpleViewName.as_view()),
+
+       e.g:
+              from ecomapp.views import SimpleView
+              path('myView',SimpleView.as_view()),
+
+====================================================================================================================================================
+Redirect from one url to another url
+
+redirect()  inbuilt function
+syntax:
+       redirect('url_name')
+
+url.py
+path('page1',views.page2)
+path('page2',views.page1)
+
+views.py
+from django.shortcuts import render, HttpResponse, redirect
+
+def page1(request):
+    return redirect('/page2')
+
+def page2(request):
+    return render(request,'index.html')
+
+===============================================================================================================================================
+
+DTL (Django Template Lang)
+
+To implement following programming lang concepts in html there is DTL
+       1. variable interpolation
+       2. decision control structure
+       3. loop control structure
+       4. reusability
+       5. template inheritance
+
+- data from views to html file is always send to dictionary
+- though the data is passed as dictionary, that data is 
+  accessed with the help of key in html file as:
+  syntax:
+       {{keyname}}
+
+def hello(request):
+    context={}
+    context['name']='itvedant'
+    context['ct']='pune'
+    return render(request,'hello.html',context)
+
+=================================================================================================================================================
+
+Decision control instructions :
+
+1. if statement
+
+Syntax :
+       {% if condition %}
+              html code
+       {% endif %}
+
+2. if...else statement
+
+Syntax :
+       {% if condition %}
+              if block
+       {% else %}
+              else block
+       {% endif %}
+
+3. elseif
+
+Syntax : 
+       {% if condition %}
+              statement 
+       {% elif condition %}
+              statement
+       {% elif condition %}
+              statement
+
+================================================================================================================================================
+Loop control instructions
+
+{% for x in collection %}
+       body of for 
+{% endfor %}
+
+==============================================================================================================================================
+
+To count the iterations in loop :
+
+Syntax:
+       <strong> {{forloop.counter}} </strong>
+
+===========================================================================================================================================
+
+Static files :
+
+CSS files, javascript files and images are static files.
+
+create 'static" folder in root project
+          |
+          | 3 folder
+          |
+          CSS
+          javascript
+          image
+          
+===========================================================================================================================================
+
+Link js file:
+function display()
+{
+    alert("Hello from display function!")
+}
+
+html file
+under head section
+<script src="{% static 'js/main.js' %}"></script> 
+
+at last line of html file create button click me
+<button onclick="display()">Click Me</button>
+
+========================================================================================================================================
+
+Link image file :
+
+download any image in static====>image folder
+
+Link file under body tag :
+<img src="{% static 'image/peace.jpeg' %}" >
+
+=============================================================================================================================================
+ Testing :
+
+ Functionalities in web application:
+
+ 1. User registration
+ 2. login
+ 3. adding product to create
+ 4. product gateway
+ 5. place order 
+
+ unit : Each functionality in application
+
+ unit testing: Function is tested aginst certian condition.
+
+
+Assertion keyword:
+- It check condition,
+- If the condition is true it does nothing.
+- If false it raise assertion error.
+
+
+assertion.py 
+
+x=4
+assert x==5
+       4==5  ---->  assertion error
+       run: env should activated 
+            python assrtion.py 
+
+Type of testing:
+
+1. Mannul testing 
+2. Automated testing 
+
+Install pytest module : pip install pytest
+
+Convention while using pytest for testing :
+1. Name of the file in which pytest need to be carried for testing must begin with
+       test_filename.py
+   e.g. test_sampletest.py    
+
+2. Name of the function must design with
+       test_functionname():
+
+
+       test_sampletest.py
+
+       import math
+       n=16
+       def test_sqrt():
+              assert math.sqrt(n)==0
+
+       def test_square():
+              assert n*2=66
+
+       
+       run: pytest
+
+===============================================================================================================================================
+
+CRUD 
+
+Insert record into DB
+Read data from DB 
+Update data from DB
+Delete record from DB
+
+Step1 : create new folder on desktop and open it in vscode
+step2 : create virtual environment 
+step3 : activate env 
+step4 : install django
+step5 : create project with name "message"
+step6 : create application with name "messageapp"
+step7 : create urls.py in application folder and link that with project urls.py 
+step8 : add path for 'testing' and call testing function from views 
+step9 : Write testing function in views.py which return one message as "Hello linked successfully"
+step10 : add application in INSTALLED_APPS section 
+step11 : do setting for templates, static files with folder creation 
+step12 : under templates folder create file as "create.html"
+step13 : In create html display any message with h1 tag
+step14 : With create function in views.py file which return create html file 
+step15 : add create path in urls.py file and call create function from views.  
+
+================================================================================================================================================
+
+CSRF token :Cross Site Request Forgency Production
+
+From data must be send along with token generated automatically.
+
+CSRF Mechanism:
+
+1. When {% csrf_token %} is added in the form, a csrf token is generated in the form & the same time 
+   that same csrf token is stored in the system by django.
+
+2. When form is sumbmitted with data,this csrf token is also submitted.
+
+3. Before form data is being inserted into database, that form data needs to pass through csrf middleware.
+
+
+Role of csrf middleware :
+
+csrf token received          =          csrf token stored in the 
+from form                               cookies by django
+
+
+if above condition is True then  then only middleware allows you to move further to views.py function.
+else your POST request is aborted or forbidden.
+
+===========================================================================================================================================
+
+Request Object : 
+
+all data of the request coming from client is handled by 
+request object.
+
+class student():
+   rno=12;
+   name="it"
+
+s=student()
+s.rno
+s.name
+
+data member 'method' in request object that 
+contains type of request.
+
+types of requests:  GET , POST
+
+If the request is GET then request.method value is GET
+If the request is POST then request.method value is POST
+
+if method is GET then display empty form.
+if method is POST then display message as 
+" insert data from the form into database."
+fetch record into views.py file:
+
+when form is submitted all keys and their values are 
+stored in pre defined dictionary which is called as
+"POST" in request object.so that values assigned to the keys
+send by form can be fetched in the backend or server side.
+
+If we want to retrieve name :
+
+request.POST['uname']
+request.POST['uemail']
+request.POST['umob']
+
+
+
+views.py 
+
+
+def create(request):
+       print("Method is",request.method)
+       if request.method =="GET:"
+              return render(request,'create.html')
+       else:
+              #return HttpResponse("insert data into DB")
+              n=request.POST['uname']
+              print("Name is",n)
+               return HttpResponse("Values fetched successfully")
+
+
+
+=========================================================================================================================================
+
+Insert record into database:
+
+step 1: create database.  eg:message
+step 2: database setting in settings.py file
+
+when server runs, settings.py file is executed and 
+django tries to connect with the database mentioned 
+in the database setting.
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME':'message',
+        'HOST':'localhost',
+        'USER':'root',
+        'Password':'',
+        'Port':'3306',
+    }
+}
+
+to install mysqlclient give command as:
+
+    pip install mysqlclient
+
+=============================================================================================================================================
+
+create table that is defining models:
+
+model==> tables in db
+
+database name: message
+table name: message
+
+id    name  email      mobile   msg
+1     abc   abc@g.com   66666   test msg
+
+model is "class" defined in models.py file in application
+folder.
+
+syntax of defining class:
+
+ class classname:              class stud:
+     data members                   name="itvedant"
+     functions                      rno=12
+                                    def disp(self):
+                                        print(name)
+
+                                     s=stud()
+                                     s.disp()
+
+
+By convention put first letter of classname as capital
+    
+1. table name is equal to class name in model  
+
+     classname = tablename
+
+     class Message(models.Model):      #models= module(it consits of in built fun)     #Model=class
+
+     any model class defined must be inherited 
+     from Model class which is inside models module.
+
+     tablename= applicationname_tablename
+      eg:
+              messageapp_msg
+
+===================================================================================================================================================
+
+2. columns in the table are data members in class Model.
+   class Message(models.Model):
+        id=                  |
+        name=                | this are the nothing but the data member
+        email=               |
+
+========================================================================================================================================================
+
+3. Datatypes of column:
+
+ there are inbuilt functons in models module that are used
+ to assign data type to data members.
+
+ Datatypes          function in models module
+ varchar(length)  models.Charfield(max_length=n)
+ int              models.Integerfield()
+ float            models.Floatfield() 
+ email            models.Emailfield()
+
+framework automatically takes id so no need to define it.     
+
+ class Message(models.Model):
+       name=models.CharField(max_length=50)
+       email=models.CharField(max_length=50)
+       mobile=models.BigIntegerfield()
+       msg=models.CharField(max_length=200)
+
+===========================================================================================================================================================
+
+step 2: Migration
+
+model class defined in models.py file need to be migrated 
+from models.py to DBMS (in database)
+
+create migration: (messageapp>migration>0001_initial.py)
+
+     python manage.py makemigrations
+
+on execution of above command a migration file containing
+the code to create table in the database is automatically 
+created on applications migration folder.
+
+==================================================================================================================================================
+
+migrate migration created in application
+
+python manage.py migrate
+
+===========================================================================================================================================
+
+Insert reccord into db table:
+
+ORM 
+- Object Relational Mapping
+- used to insert data
+
+syntax:
+
+step1: Insert table syntax 
+
+variablename=Modelname.objects.create(col1=value1,
+            col2=value2,......coln=valuen)
+            
+e.g.
+
+m= Msg.objects.create(name=n,email=em,mobile=mob,
+   msg=msg)
+
+x= Message.object.create(name=n,email=m,mobile=o,msg=p)
+
+when ORM query is executed a row is inserted into table.
+row in the table is called as object in model.   
+
+step 2: m.save()
+
+mow model is there in models.py file & not there in views.py
+
+in vies.py file:-
+from messageapp.models import Msg
+
+================================================================================================================================================
+
+Dashboard:
+
+It is a web page in application where user can have 
+all functionalities control.
+
+eg: where user can:
+1. view all messages that he had send.
+2. edit message
+3. delete a message
+4. link to create or send message.
+
+db==>table==>inserted data==>views.py===>diplay in html
+
+retrieve data from database table into views.py file and 
+present on html file.
+
+fetch records from table:
+sql query: select * from tablename;
+
+ORM query to retrieve data:
+   Modelname.objects.all()
+
+e.g.
+
+   m=Msg.objects.all()
+
+This query returns list of queryset which 
+contains objects.
+
+====================================================================================================================================================
+delete
+
+step 1: fetch object or row to be deleted
+        m=Modelename.objects.filter(id=rid)
+
+step 2: detele that record
+        m.delete()
+
+====================================================================================================================================
+
+edit
+
+edit operation:
+1. show old data to user.
+   when user click on the edit link application must 
+   show user previous data filled in the form.
+
+step1: fetch data from the db based on the edit id
+      m= Modlename.objects.filter(id=rid)
+
+step2: record fetched for editing must be shown to user
+      by sending that fetched record to html or browser 
+      or template.
+Note: data from views to html file is always send to dictionary.
+
+
+
+for update the record: 
+
+
+
+views.py 
+
+
+def create(request):
+       print("Method is",request.method)
+       if request.method =="GET:"
+              return render(request,'create.html')
+       else:
+              #return HttpResponse("insert data into DB")
+              n=request.POST['uname']
+              print("Name is",n)
+               return HttpResponse("Values fetched successfully")
